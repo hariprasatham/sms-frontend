@@ -12,6 +12,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { DataTableColumnHeader } from "@/components/custom/data-table-column-header";
+import { DataTableRowActions } from "@/components/custom/data-table-row-actions";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
@@ -45,126 +47,87 @@ export const columns: ColumnDef<Student>[] = [
   // },
   {
     accessorKey: "first_name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          First Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
-    cell: ({row})=>{
-      return(
-        <div className="w-20">{row.getValue("first_name")}</div>
-      )
-    }
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='First Name' />
+    ),
+    cell: ({row})=> <div className="w-20">{row.getValue("first_name")}</div>,
+    enableSorting: false,
+    enableHiding:  false,
   },
   {
     accessorKey: "last_name",
-    header: () => <div className="text-left">Last Name</div>,
-    cell: ({ row }) => {
-      return (
-        <div className="w-32">{row.getValue("last_name")}</div>
-      )
-
-    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Last Name' />
+    ),
+    cell: ({ row }) => <div className="w-32">{row.getValue("last_name")}</div>,
+    enableHiding:false,
+    enableSorting: false,
   },
   {
     accessorKey: "email",
-    header: "email",
-    cell: ({ row }) => {
-      return (
-        <div className="w-32" >{row.getValue("email")}</div>
-      )
-    }
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Email' />
+    ),
+    cell: ({ row }) => <div className="w-52" >{row.getValue("email")}</div>,
+    enableSorting:false,
+    enableHiding:false,
   },
   {
     accessorKey: "phone_number",
-    header: "phone_number",
-    cell: ({ row }) => {
-      return (
-        <div className="w-32" >{row.getValue("phone_number")}</div>
-      )
-    }
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Phone Number' />
+    ),    
+    cell: ({ row }) => <div className="w-32" >{row.getValue("phone_number")}</div>,
+    enableSorting:false,
+    enableHiding:false,
   },
   {
     accessorKey: "admission_date",
-    header: "admission_date",
-    cell: ({ row }) => {
-      return (
-        <div className="w-32" >{row.getValue("admission_date")}</div>
-      )
-    }
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Admission Date' />
+    ),    
+    cell: ({ row }) => <div className="w-32" >{row.getValue("admission_date")}</div>,
+    enableSorting:false,
+    enableHiding:false,
   },
   {
     accessorKey: "class_id",
-    header: "class_name",
-    cell: ({ row }) => {
-      console.log("row==================>",row.original)
-      return (
-        <div className="w-32" >{row.original.class_id?.class_name}</div>
-      )
-    }
+    // header: "class_name",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Class Name' />
+    ), 
+    cell: ({ row }) => <div className="w-32" >{row.original.class_id?.class_name}</div>
   },
   {
     accessorKey: "dob",
-    header: "dob",
-    cell: ({ row }) => {
-      let date = new Date(row.getValue("dob")).toISOString()
-
-      return (
-        <div className="w-32" >{date}</div>
-      )
-    }
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='DoB' />
+    ),    
+    cell: ({ row }) => <div className="w-32" >{row.getValue("dob")}</div>,
+    enableSorting:false,
+    enableHiding:false,
   },
   {
     accessorKey: "gender",
-    header: "gender",
-    cell: ({ row }) => {
-      return (
-        <div className="w-32" >{row.getValue("gender")}</div>
-      )
-    }
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Gender' />
+    ),    
+    cell: ({ row }) => <div className="w-32" >{row.getValue("gender")}</div>,
+    enableSorting:false,
+    enableHiding:false,
   },
   {
     accessorKey: "address",
-    header: "address",
-    cell: ({ row }) => {
-      return (
-        <div className="w-32" >{row.getValue("address")}</div>
-      )
-    }
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Address' />
+    ),    
+    cell: ({ row }) => <div className="w-32" >{row.getValue("address")}</div>,
+    enableSorting:false,
+    enableHiding:false,
   },
   {
     id: "actions",
     header: "actions",
-    cell: ({ row }) => {
-      const payment = row.original
- 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    },
-  },
+    cell: ({ row }) => <DataTableRowActions row={row} />
+  }
 ];
