@@ -14,6 +14,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
+
+export type ClassInfo = {
+  class_name: string;
+};
+
 export type Student = {
   id:string;
   first_name:string;
@@ -24,20 +29,20 @@ export type Student = {
   email:string;
   phone_number:string;
   admission_date:string;
-  class_id:string
+  class_id: ClassInfo;
 };
 
 export const columns: ColumnDef<Student>[] = [
 
-  {
-    accessorKey: "id",
-    header: "id",
-    cell: ({ row }) => {
-      return (
-        <div className="w-10" >{row.getValue("id")}</div>
-      )
-    }
-  },
+  // {
+  //   accessorKey: "id",
+  //   header: "id",
+  //   cell: ({ row }) => {
+  //     return (
+  //       <div className="w-10" >{row.getValue("id")}</div>
+  //     )
+  //   }
+  // },
   {
     accessorKey: "first_name",
     header: ({ column }) => {
@@ -96,10 +101,11 @@ export const columns: ColumnDef<Student>[] = [
   },
   {
     accessorKey: "class_id",
-    header: "class_id",
+    header: "class_name",
     cell: ({ row }) => {
+      console.log("row==================>",row.original)
       return (
-        <div className="w-32" >{row.getValue("class_id")}</div>
+        <div className="w-32" >{row.original.class_id?.class_name}</div>
       )
     }
   },
@@ -107,8 +113,10 @@ export const columns: ColumnDef<Student>[] = [
     accessorKey: "dob",
     header: "dob",
     cell: ({ row }) => {
+      let date = new Date(row.getValue("dob")).toISOString()
+
       return (
-        <div className="w-32" >{row.getValue("dob")}</div>
+        <div className="w-32" >{date}</div>
       )
     }
   },
